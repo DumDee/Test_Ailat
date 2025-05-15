@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'offers',
     'stocks',
+    'watchlist',
     'drf_yasg',
 ]
 
