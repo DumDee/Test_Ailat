@@ -6,3 +6,6 @@ venv/
 docker-compose.yml
 Dockerfile
 .env
+.env
+docker-compose.yml
+Dockerfile
