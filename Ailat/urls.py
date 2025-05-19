@@ -3,6 +3,7 @@ from django.urls import path, include
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from api.views import ApiRootView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -25,6 +26,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/home/', include('home.urls')),
+    path('api/', ApiRootView.as_view(), name='api-root'),
     path('api/', include('offers.urls')),
     path('api/', include('stocks.urls')),
     path('api/', include('watchlist.urls')),

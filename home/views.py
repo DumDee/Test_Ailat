@@ -4,6 +4,7 @@ from stocks.models import Stock
 from offers.models import Partner
 
 class HomeAPIView(APIView):
+
     def get(self, request):
         # Подсчёт compliant / non-compliant акций
         compliant_count = Stock.objects.filter(compliance_status='compliant').count()
