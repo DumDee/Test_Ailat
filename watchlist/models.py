@@ -11,6 +11,8 @@ class WatchedStock(models.Model):
     class Meta:
         unique_together = ('user', 'stock')
         ordering = ['-added_at']
+        verbose_name = "Отслеживаемая акция"
+        verbose_name_plural = "Отслеживаемые акции"
 
     def __str__(self):
         return f"{self.user} → {self.stock}"

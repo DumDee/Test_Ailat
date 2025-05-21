@@ -24,9 +24,18 @@ class DocumentSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    partner = serializers.SerializerMethodField()
+
     class Meta:
         model = Product
-        fields = ['id', 'name', 'description', 'product_type', 'tags', 'partner']
+        fields = ['id','partner', 'name', 'description', 'product_type', 'tags']
+
+    def get_partner(self, obj):
+        return {
+            "name": obj.partner.name,
+            "logo": obj.partner.logo.url if obj.partner.logo else None,
+            "is_verified": obj.partner.is_verified
+        }
 
 
 class IssueReportSerializer(serializers.ModelSerializer):

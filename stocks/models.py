@@ -34,6 +34,10 @@ class Stock(models.Model):
 
     last_updated = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "Акция"
+        verbose_name_plural = "Акции"
+
     def __str__(self):
         return f"{self.ticker} ({self.name})"
 
@@ -44,6 +48,10 @@ class ShariahScreening(models.Model):
     result_status = models.CharField(max_length=20, choices=Stock.COMPLIANCE_CHOICES)
     comment = models.TextField(blank=True)
     source = models.CharField(max_length=255, blank=True)
+
+    class Meta:
+        verbose_name = "Шариатская проверка"
+        verbose_name_plural = "Шариатские проверки"
 
     def __str__(self):
         return f"Screening for {self.stock.ticker} — {self.screening_date}"
@@ -63,6 +71,10 @@ class ComplianceCriteria(models.Model):
     percentage = models.DecimalField(max_digits=5, decimal_places=2)
     status = models.CharField(max_length=20, choices=Stock.COMPLIANCE_CHOICES)
 
+    class Meta:
+        verbose_name = "Критерий соответствия"
+        verbose_name_plural = "Критерии соответствия"
+
     def __str__(self):
         return f"{self.category} — {self.percentage}%"
 
@@ -71,6 +83,10 @@ class ComplianceStatusHistory(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE, related_name='status_history')
     status = models.CharField(max_length=20, choices=Stock.COMPLIANCE_CHOICES)
     date = models.DateField()
+
+    class Meta:
+        verbose_name = "История статуса"
+        verbose_name_plural = "Истории статуса"
 
     def __str__(self):
         return f"{self.stock.ticker} — {self.status} on {self.date}"

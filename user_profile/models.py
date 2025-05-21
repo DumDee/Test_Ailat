@@ -12,5 +12,9 @@ class Profile(models.Model):
     pin_code_hash = models.CharField(max_length=128, blank=True)
     face_id_enabled = models.BooleanField(default=False)
 
+    class Meta:
+        verbose_name = "Профиль"
+        verbose_name_plural = "Профили"
+
     def __str__(self):
         return f"Profile of {self.user.email}"
