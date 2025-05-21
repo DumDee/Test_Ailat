@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'offers',
     'stocks',
     'watchlist',
+    'user_profile'
     'drf_yasg',
 ]
 
