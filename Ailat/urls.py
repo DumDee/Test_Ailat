@@ -33,6 +33,7 @@ urlpatterns = [
     path('api/auth/', include('auth_api.urls')),
     path('api/profile/', include('user_profile.urls')),
     path('api/subscription/', include('subscriptions.urls')),
+    path('api/referrals/', include('referrals.urls')),
     path('api/auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

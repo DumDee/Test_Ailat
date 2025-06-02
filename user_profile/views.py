@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from django.contrib.auth.hashers import make_password, check_password
 from .serializers import ProfileSerializer
-
+from rest_framework.decorators import api_view, permission_classes
 
 class ProfileView(APIView):
     permission_classes = [IsAuthenticated]
@@ -43,3 +43,10 @@ class PinVerifyView(APIView):
 
         valid = check_password(pin, request.user.profile.pin_code_hash or '')
         return Response({'valid': valid})
+
+@api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
+def delete_profile(request):
+    user = request.user
+    user.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)

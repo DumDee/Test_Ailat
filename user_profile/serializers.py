@@ -23,7 +23,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             'notifications_enabled',
             'face_id_enabled',
             'date_joined',
-            'is_plus'
+            'is_plus',
+            'referral_code'
         ]
 
     def get_is_plus(self, obj):

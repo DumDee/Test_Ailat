@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+import uuid
 
 User = get_user_model()
 
@@ -11,6 +12,7 @@ class Profile(models.Model):
     notifications_enabled = models.BooleanField(default=True)
     pin_code_hash = models.CharField(max_length=128, blank=True)
     face_id_enabled = models.BooleanField(default=False)
+    referral_code = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
 
     class Meta:
         verbose_name = "Профиль"

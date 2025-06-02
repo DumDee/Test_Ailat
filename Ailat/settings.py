@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'watchlist',
     'user_profile',
     'subscriptions',
+    'referrals',
     'drf_yasg',
 ]
 
