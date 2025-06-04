@@ -26,6 +26,16 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username', 'email', 'password', 'referral_code']
 
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError('User with this email already exists.')
+        return value
+
+    def validate_password(self, value):
+        if len(value) < 8:
+            raise serializers.ValidationError('Password must be at least 8 characters long.')
+        return value
+
     def create(self, validated_data):
         referral_code = validated_data.pop('referral_code', None)
         user = User.objects.create_user(**validated_data)
