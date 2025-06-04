@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from referrals.models import Referral
 from user_profile.models import Profile  # если профиль в отдельном приложении
+from rest_framework.validators import UniqueValidator
+from django.contrib.auth.password_validation import validate_password
 
 class NullableUUIDField(serializers.Field):
     def to_internal_value(self, data):
@@ -25,6 +27,16 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'email', 'password', 'referral_code']
+
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError('User with this email already exists.')
+        return value
+
+    def validate_password(self, value):
+        if len(value) < 8:
+            raise serializers.ValidationError('Password must be at least 8 characters long.')
+        return value
 
     def create(self, validated_data):
         referral_code = validated_data.pop('referral_code', None)
