@@ -1,19 +1,19 @@
-from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
-
-class ApiRootView(APIView):
-    def get(self, request):
-        base = request.build_absolute_uri('/')[:-1]  # убираем последний слеш
-
-        return Response({
-            "home": f"{base}/api/home/",
-            "stocks": f"{base}/api/stocks/",
-            "watchlist": f"{base}/api/watchlist/",
-            "partners": f"{base}/api/partners/",
-            "auth": {
-                "register": f"{base}/api/auth/register/",
-                "login": f"{base}/api/auth/token/",
-                "refresh": f"{base}/api/auth/token/refresh/"
-            }
-        })
+@api_view(['GET'])
+def custom_api_root(request):
+    return Response({
+        "partners": request.build_absolute_uri("partners/"),
+        "stocks": request.build_absolute_uri("stocks/"),
+        "watchlist": request.build_absolute_uri("watchlist/"),
+        "home": request.build_absolute_uri("home/"),
+        "auth": {
+            "register": request.build_absolute_uri("auth/register/"),
+            "token": request.build_absolute_uri("auth/token/"),
+            "refresh": request.build_absolute_uri("auth/token/refresh/")
+        },
+        "referrals": request.build_absolute_uri("referrals/"),
+        "subscription": request.build_absolute_uri("subscription/"),
+        "profile": request.build_absolute_uri("profile/"),
+    })
