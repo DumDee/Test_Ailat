@@ -24,12 +24,20 @@ class ActivateSubscriptionView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        expires = timezone.now() + timedelta(days=30)
+        data = request.data
+        plan = data.get('plan', 'monthly')
+        source = data.get('source', 'admin')
+        sub_type = data.get('type', 'pro')
+        duration = int(data.get('duration_days', 30))
+
+        expires = timezone.now() + timedelta(days=duration)
+
         subscription, created = UserSubscription.objects.update_or_create(
             user=request.user,
             defaults={
-                'plan': 'monthly',
-                'source': 'admin',
+                'plan': plan,
+                'source': source,
+                'type': sub_type,
                 'is_active': True,
                 'activated_at': timezone.now(),
                 'expires_at': expires

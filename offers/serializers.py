@@ -28,7 +28,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['id','partner', 'name', 'description', 'product_type', 'tags']
+        fields = ['id','partner', 'name', 'description', 'product_type', 'tags', 'is_pro']
 
     def get_partner(self, obj):
         return {

@@ -30,7 +30,7 @@ class StockSerializer(serializers.ModelSerializer):
             'sector', 'industry',
             'compliance_status', 'icon_url',
             'trading_view_ticker', 'tinkoff_link',
-            'last_updated',
+            'last_updated', 'is_free_access'
         ]
 
 class StockDetailSerializer(serializers.ModelSerializer):

@@ -8,6 +8,7 @@ class UserSubscriptionSerializer(serializers.ModelSerializer):
         fields = [
             'plan',
             'source',
+            'type',
             'is_active',
             'activated_at',
             'expires_at'

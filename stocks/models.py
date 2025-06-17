@@ -33,6 +33,7 @@ class Stock(models.Model):
     tinkoff_link = models.URLField(blank=True, null=True)
 
     last_updated = models.DateTimeField(auto_now=True)
+    is_free_access = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Акция"

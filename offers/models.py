@@ -78,6 +78,7 @@ class Product(models.Model):
     description = models.TextField(blank=True)
     product_type = models.CharField(max_length=100, choices=PRODUCT_TYPES)
     tags = models.JSONField(default=list, blank=True)
+    is_pro = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Продукт"
