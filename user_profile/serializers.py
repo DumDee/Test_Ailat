@@ -32,3 +32,11 @@ class ProfileSerializer(serializers.ModelSerializer):
         if sub and sub.is_active and sub.expires_at > timezone.now():
             return sub.type
         return None
+
+class PinSerializer(serializers.Serializer):
+    pin = serializers.CharField(min_length=4, max_length=4, write_only=True)
+
+    def validate_pin(self, value):
+        if not value.isdigit():
+            raise serializers.ValidationError('PIN должен содержать только цифры')
+        return value

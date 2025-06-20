@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from .models import UserSubscription
-from .serializers import UserSubscriptionSerializer
+from .serializers import UserSubscriptionSerializer, ActivateSubscriptionSerializer
 from django.utils import timezone
 from datetime import timedelta
 
@@ -24,20 +24,18 @@ class ActivateSubscriptionView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        data = request.data
-        plan = data.get('plan', 'monthly')
-        source = data.get('source', 'admin')
-        sub_type = data.get('type', 'pro')
-        duration = int(data.get('duration_days', 30))
+        serializer = ActivateSubscriptionSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
 
-        expires = timezone.now() + timedelta(days=duration)
+        expires = timezone.now() + timedelta(days=data['duration_days'])
 
         subscription, created = UserSubscription.objects.update_or_create(
             user=request.user,
             defaults={
-                'plan': plan,
-                'source': source,
-                'type': sub_type,
+                'plan': data['plan'],
+                'source': data['source'],
+                'type': data['type'],
                 'is_active': True,
                 'activated_at': timezone.now(),
                 'expires_at': expires

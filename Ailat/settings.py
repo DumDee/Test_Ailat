@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'subscriptions',
     'referrals',
     'drf_yasg',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -115,7 +116,17 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
             'rest_framework_simplejwt.authentication.JWTAuthentication',
         ],
+    'DEFAULT_THROTTLE_RATES': {
+        'user': '1000/day',
+        'pin': '5/minute',
+    }
 }
+
+REST_FRAMEWORK.setdefault("DEFAULT_FILTER_BACKENDS", [
+    "django_filters.rest_framework.DjangoFilterBackend",
+    "rest_framework.filters.SearchFilter",
+    "rest_framework.filters.OrderingFilter",
+])
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # по умолчанию 5 минут
@@ -123,4 +134,25 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': False,
     'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s [%(name)s] %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
 }

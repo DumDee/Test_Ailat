@@ -5,3 +5,5 @@ docker-compose.yml
 Dockerfile
 .env
 .bak/
+stocks/management
+offers/management

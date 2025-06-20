@@ -1,6 +1,7 @@
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status, viewsets, permissions, filters, serializers
+from django_filters.rest_framework import DjangoFilterBackend
 from django.db import IntegrityError
 from .models import WatchedStock
 from .serializers import WatchedStockSerializer
@@ -8,8 +9,11 @@ from .serializers import WatchedStockSerializer
 class WatchedStockViewSet(viewsets.ModelViewSet):
     serializer_class = WatchedStockSerializer
     permission_classes = [permissions.IsAuthenticated]
-    filter_backends = [filters.SearchFilter]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    # фильтрация по бирже связанного Stock, поиск по имени/тикеру, сортировка по дате добавления
+    filterset_fields = ['stock__exchange']
     search_fields = ['stock__name', 'stock__ticker']
+    ordering_fields = ['added_at']
 
     def get_queryset(self):
         return WatchedStock.objects.filter(user=self.request.user)

@@ -1,9 +1,16 @@
 from rest_framework import viewsets
 from .models import Stock
 from .serializers import StockSerializer, StockDetailSerializer
-
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 class StockViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Stock.objects.all()
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ["ticker", "exchange"]
+    search_fields = ["name", "ticker"]
+    ordering_fields = ["current_price", "ticker"]
+
     def get_queryset(self):
         user = self.request.user
         qs = Stock.objects.all()
