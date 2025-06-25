@@ -17,7 +17,12 @@ class SubscriptionsApiTests(APITestCase):
     # Проверка активации подписки для пользователя
     def test_activate_subscription(self):
         url = reverse("activate_subscription")
-        response = self.client.post(url)
+        data = {
+            "plan": "monthly",
+            "source": "admin",
+            "type": "pro"
+        }
+        response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue(UserSubscription.objects.filter(user=self.user).exists())
 

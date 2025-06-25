@@ -10,5 +10,5 @@ class ReferralListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Referral.objects.filter(referrer=self.request.user)
+        return Referral.objects.filter(referrer=self.request.user).select_related('referrer', 'referred')
 

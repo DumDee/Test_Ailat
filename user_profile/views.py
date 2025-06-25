@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from django.contrib.auth.hashers import make_password, check_password
+from .models import Profile
 from .serializers import ProfileSerializer, PinSerializer
 from rest_framework.decorators import api_view, permission_classes
 from .throttling import PinRateThrottle
@@ -14,10 +15,14 @@ class ProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        profile = request.user.profile
+        profile = Profile.objects.select_related('user__subscription').get(pk=profile.pk)
         serializer = ProfileSerializer(request.user.profile)
         return Response(serializer.data)
 
     def patch(self, request):
+        profile = request.user.profile
+        profile = Profile.objects.select_related('user__subscription').get(pk=profile.pk)
         serializer = ProfileSerializer(request.user.profile, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()

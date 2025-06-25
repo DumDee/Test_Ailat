@@ -28,7 +28,13 @@ class ActivateSubscriptionView(APIView):
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
 
-        expires = timezone.now() + timedelta(days=data['duration_days'])
+        if data['plan'] == 'monthly':
+            duration_days = 30
+        elif data['plan'] == 'yearly':
+            duration_days = 365
+        else:
+            duration_days = 30
+        expires = timezone.now() + timedelta(duration_days)
 
         subscription, created = UserSubscription.objects.update_or_create(
             user=request.user,

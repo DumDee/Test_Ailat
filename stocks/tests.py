@@ -15,6 +15,7 @@ class StocksApiTests(APITestCase):
             country="USA",
             current_price=100,
             currency="USD",
+            is_free_access=True,
         )
 
     # Проверка получения списка акций

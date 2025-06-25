@@ -16,7 +16,7 @@ class WatchedStockViewSet(viewsets.ModelViewSet):
     ordering_fields = ['added_at']
 
     def get_queryset(self):
-        return WatchedStock.objects.filter(user=self.request.user)
+        return WatchedStock.objects.filter(user=self.request.user).select_related('stock')
 
     def perform_create(self, serializer):
         try:

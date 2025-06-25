@@ -15,6 +15,11 @@ class StockViewSet(viewsets.ReadOnlyModelViewSet):
         user = self.request.user
         qs = Stock.objects.all()
 
+        qs = qs.prefetch_related(
+            'screenings__criteria',
+            'status_history'
+        )
+
         if not (
             user.is_authenticated and
             hasattr(user, 'subscription') and

@@ -8,7 +8,12 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
 class PartnerViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Partner.objects.all()
+    queryset = Partner.objects.all().prefetch_related(
+        'contacts',
+        'shariah_board',
+        'documents',
+        'products'
+    )
     serializer_class = PartnerSerializer
 
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
